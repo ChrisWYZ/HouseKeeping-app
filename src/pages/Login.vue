@@ -1,45 +1,16 @@
 <template>
   <div class="login">
-    <router-view></router-view>
-    <div>
-      <van-row class="content">
-        <van-col span="6"></van-col>
-        <van-col span="12" class="cont">请先登录账号</van-col>
-        <van-col span="6"></van-col>
-      </van-row>
-      <van-row>
-        <van-col span="4"></van-col>
-        <van-col span="16">
-          <div id="login_message">
-            <van-cell-group>
-              <van-field
-                
-                required
-                clearable
-                label="用户名"
-                right-icon="question-o"
-                placeholder="请输入用户名"
-                @click-right-icon="$toast('question')"
-              />
-
-              <van-field
-                
-                type="password"
-                label="密码"
-                placeholder="请输入密码"
-                required
-              />
-              <van-button type="primary" url="/home">跳转</van-button>
-            </van-cell-group>
-          </div>
-        </van-col>
-        <van-col span="4"></van-col>
-      </van-row>
-      <van-tabbar v-model="active" @change="tabChangeHandler">
-        <van-tabbar-item name="/home" icon="star-o">首页</van-tabbar-item>
-        <van-tabbar-item name="/order" icon="search">订单</van-tabbar-item>
-        <van-tabbar-item name="/user" icon="user-o">我的</van-tabbar-item>
-      </van-tabbar>
+      <div class="login-content">
+        {{form}}
+      <van-cell-group>
+        <van-field v-model="form.username" placeholder="请输入用户名" required  label="用户名"/>
+      </van-cell-group>
+      <van-cell-group>
+        <van-field v-model="form.password" type="password" placeholder="请输入密码" required label="密码"/>
+      </van-cell-group>
+    </div>
+    <div class="login-submit">
+      <van-button size="default" round style="width:80%" @click="loginHandler">登录</van-button>
     </div>
   </div>
 </template>
@@ -48,30 +19,28 @@ import {mapState,mapActions} from 'vuex'
 export default {
   data(){
     return {
-      active:0
+      form:{
+        type:"customer",
+      }
     }
   },
   created(){
   },
   methods:{
-    tabChangeHandler(path){
-      this.$router.push({path})
+    ...mapActions('app',['login']),
+    loginHandler(){
+      this.login(this.form).then(() =>{
+        this.$router.push('./home')
+      })
     }
   }
 }
 </script>
 <style scoped>
-.content{
-  height:50px;
-  line-height: 50px;
+.login-content {
+  margin-bottom: 1em;
 }
-.cont{
-  background-color: aquamarine;
+.login-submit {
   text-align: center;
-}
-#login_message{
-  margin-top: 3em;
-  padding: 1em;
-  background-color: black;
 }
 </style>

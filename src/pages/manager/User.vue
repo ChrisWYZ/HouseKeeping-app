@@ -33,11 +33,11 @@
       <van-cell-group class="user-group" style="margin-bottom: 15px;">
         <van-cell icon="records" title="全部订单" @click="toMyOrder" is-link />
       </van-cell-group>
-
       <van-cell-group>
         <van-cell icon="location-o" title="常用地址" @click="toMyaddress" is-link />
         <van-cell icon="service-o" title="联系我们" @click="showTelephone" is-link />
         <van-cell icon="smile-o" title="帮助" @click="toHelp" is-link />
+        <van-cell  title="退出" @click="logoutHandler"  />
       </van-cell-group>
     </div>
     <!-- 联系我们的模态框  -->
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import {mapActions,mapState} from 'vuex'
 export default {
   data(){
     return {
@@ -63,7 +64,12 @@ export default {
       ]
     }
   },
+  computed:{
+    ...mapState('app',['token','info'])
+  },
   methods:{
+    ...mapActions('app',['logout']),
+
     //普通方法
     showTelephone(){
       this.show = true;
@@ -80,6 +86,13 @@ export default {
     toMyaddress(){
       this.$router.push('./Address')
     },
+    logoutHandler(){
+      this.logout().then(()=>{
+        this.$router.push('../Login')
+      })
+      
+    }
+    
   }
 }
 </script>

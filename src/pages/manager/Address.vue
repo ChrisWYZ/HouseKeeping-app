@@ -23,7 +23,7 @@
 
 <script>
     import {mapState,mapActions} from 'vuex'
-    import { Toast } from 'vant';
+    import { Toast, Info } from 'vant';
     export default {
         data(){
             return {
@@ -32,17 +32,19 @@
         },
         created(){
             Toast.loading({
-                duration:1000,
+                duration:800,
+                forbidClick: true,
                 message:'加载中...'
             })
-            this.findAllAddresses();
-            // console.log (this.addresses)
+            this.findAddressByCustomerId(this.info.id);
+            // console.log (this.info.id)
         },
         computed:{
-            ...mapState('address',['addresses'])
+            ...mapState('address',['addresses']),
+            ...mapState('app',['info','token'])
         },
         methods:{
-            ...mapActions('address',['findAllAddresses']),
+            ...mapActions('address',['findAddressByCustomerId']),
             //普通方法
             onClickLeft() {
                 this.$router.go(-1)

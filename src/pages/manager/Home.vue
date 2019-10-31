@@ -12,7 +12,8 @@
           :key="c.id"
           :icon="c.icon"
           :text="c.name"
-        />
+          @click="toCategoryList"
+        ></van-grid-item>
       </van-grid>
     </van-row>
   </div>
@@ -27,7 +28,10 @@ export default {
     ...mapState("category",["categories"])
   },
   methods:{
-    ...mapActions("category",["findAllCategories"])
+    ...mapActions("category",["findAllCategories"]),
+    toCategoryList(){
+      this.$router.push('./categoryList')
+    }
   }
 }
 </script>

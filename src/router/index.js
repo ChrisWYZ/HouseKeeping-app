@@ -27,6 +27,9 @@ const routes = [
     },{
       path:"addAddress",
       component:() => import('../pages/manager/AddAddress.vue')
+    },{
+      path:"categoryList",
+      component:() => import('../pages/manager/CategoryList.vue')
     },
       ]
   },

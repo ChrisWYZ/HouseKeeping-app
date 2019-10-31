@@ -3,14 +3,13 @@ import {get,post,post_array} from '../http/axios';
 export default {
   namespaced:true,
   state:{
-    unPayOrder:[],
     orders:[],
-    orderss:[],
-    ordersss:[],
-    orderssss:[],
-    ordermes:[],
+    orderZF:[],
+    orderPD:[],
+    orderFW:[],
+    orderQD:[],
+    orderWC:[],
     visible:false,
-    title:"添加顾客信息"
   },
   getters:{
     orderSize(state){
@@ -40,29 +39,42 @@ export default {
     refreshOrders(state,orders){
       state.orders = orders;
     },
-    // findOrdermes(state,order){
-    //   state.orders = orders;
-    // },
-    unPay(state,orderss){
-   let a=orderss.filter((item) => {
+    //筛选状态，并分别放入数组中
+    unPay(state,orderZF){
+    let a=orderZF.filter((item) => {
             return item.status ==="未付款"
         })
-        state.orderss=a;
+        state.orderZF=a;
     },
-    unSend(state,ordersss){
-      let b=ordersss.filter((item) => {
+    unSend(state,orderPD){
+      let b=orderPD.filter((item) => {
             return item.status ==="待派单"
         })
-        state.ordersss=b;
+        state.orderPD=b;
     },
-    unServe(state,orderssss){
-      let c=orderssss.filter((item) => {
-            return item.status ==="未服务"
+    unServe(state,orderFW){
+      let c=orderFW.filter((item) => {
+            return item.status ==="待服务"
         })
-        state.orderssss=c;
+        state.orderFW=c;
     },
-    setTitle(state,title){
-      state.title = title;
+    unConfirm(state,orderFW){
+      let d=orderFW.filter((item) => {
+            return item.status ==="待确定"
+        })
+        state.orderQD=d;
+    },
+    compelted(state,orderWC){
+      let e=orderWC.filter((item) => {
+            return item.status ==="已完成"
+        })
+        state.orderWC=e;
+    },
+    unOrder(state,orderJD){
+      let f=orderJD.filter((item) => {
+            return item.status ==="待接单"
+        })
+        state.orderJD=f;
     }
   },
   actions:{
@@ -79,36 +91,22 @@ export default {
       context.dispatch("findAllOrders");
       return response;
     },
-    async findAllOrders(context){
+    async findAllOrders(context,id){
       // 1. ajax查询
-      let response = await get("/order/findAll");
+      let response = await get("/order/query?customerId="+id);
       // 2. 将查询结果更新到state中
       context.commit("refreshOrders",response.data);
+      context.commit("unSend",response.data);
+      context.commit("unServe",response.data);
+      context.commit("unPay",response.data);
+      context.commit("unConfirm",response.data);
+      context.commit("compelted",response.data);
+      context.commit("unOrder",response.data);
+
+
     },
-    async findOrdermes(context,a){
-      // 1. ajax查询
-      let response = await get("/order/queryBasic",{customerId,waiterId});
-      // 2. 将查询结果更新到state中
-      context.commit("refreshOrders",response.data);
-    },
-    async unPayOrders(context){
-        // 1. ajax查询
-        let response = await get("/order/findAll");
-        // 2. 将查询结果更新到state中
-        context.commit("unPay",response.data);
-      },
-      async unSendOrders(context){
-        // 1. ajax查询
-        let response = await get("/order/findAll");
-        // 2. 将查询结果更新到state中
-        context.commit("unSend",response.data);
-      },
-      async unServeOrders(context){
-        // 1. ajax查询
-        let response = await get("/order/findAll");
-        // 2. 将查询结果更新到state中
-        context.commit("unServe",response.data);
-      },
+    
+    
     // payload 顾客信息
     async saveOrUpdateOrder({commit,dispatch},payload){
       // 1. 保存或更新

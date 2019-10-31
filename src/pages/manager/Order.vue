@@ -1,69 +1,44 @@
 <template>
   <div class="order">
     <van-nav-bar title="订单" style="border:.5px solid #ededed"></van-nav-bar>
-    <van-tabs v-model="active">
-      <van-tab title="全部订单">
-            <!-- {{orders}} -->
-            <van-card
-              v-for="c in orders"
-              :title="c.id" :key="c.id" :name="c.id"
-              :desc="c.status"  
-              thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
-            >
-            <div slot="footer">
-              <van-button size="mini" @click="numAdd(c.total)">+</van-button>
-              {{c.total}}
-              <van-button size="mini" @click="numcut(c.total)">-</van-button>
-              <van-button type="danger" size="mini" @click="deleteOrderById(c.id)">删除</van-button>
-            </div>
-            </van-card>
+    
+    <van-tabs v-model="active" swipeable>
+      <van-tab title="所有订单">
+        <van-cell-group v-for="(item,index) in orders" :key="index">
+          <van-cell :title="item.status" :value="'订单价格：'+item.total+'￥'" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
       </van-tab>
-      <van-tab title="未付款">
-        <!-- {{orderss}} -->
-        <van-card
-              v-for="c in orderss"
-              :title="c.id" :key="c.id" :name="c.id"
-              :desc="c.status"  
-              thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
-            >
-            <div slot="footer">
-              <van-button size="mini" @click="numAdd(c.total)">+</van-button>
-              {{c.total}}
-              <van-button size="mini" @click="numcut(c.total)">-</van-button>
-              <van-button type="danger" size="mini" @click="deleteOrderById(c.id)">删除</van-button>
-            </div>
-            </van-card>
+      <van-tab title="未支付">
+        <van-cell-group v-for="item in orderZF" :key="item.index">
+          <van-cell :title="item.status" :value="'订单价格：' +item.total+'￥'" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
       </van-tab>
       <van-tab title="待派单">
-        <van-card
-              v-for="c in ordersss"
-              :title="c.id" :key="c.id" :name="c.id"
-              :desc="c.status"  
-              thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
-            >
-            <div slot="footer">
-              <van-button size="mini" @click="numAdd(c.total)">+</van-button>
-              {{c.total}}
-              <van-button size="mini" @click="numcut(c.total)">-</van-button>
-              <van-button type="danger" size="mini" @click="deleteOrderById(c.id)">删除</van-button>
-            </div>
-            </van-card>
+        <van-cell-group  v-for="item in orderPD" :key="item.index">
+          <van-cell :title="item.status" :value="'订单价格：' +item.total+'￥'" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
+      </van-tab>
+      <van-tab title="待接单">
+        <van-cell-group v-for="item in orderJD" :key="item.index">
+          <van-cell :title="item.status" :value="'订单价格：' +item.total+'￥'" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
       </van-tab>
       <van-tab title="未服务">
-        <van-card
-              v-for="c in orderssss"
-              :title="c.id" :key="c.id" :name="c.id"
-              :desc="c.status"  
-              thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
-            >
-            <div slot="footer">
-              <van-button size="mini" @click="numAdd(c.total)">+</van-button>
-              {{c.total}}
-              <van-button size="mini" @click="numcut(c.total)">-</van-button>
-              <van-button type="danger" size="mini" @click="deleteOrderById(c.id)">删除</van-button>
-            </div>
-            </van-card>
+        <van-cell-group  v-for="item in orderFW" :key="item.index">
+          <van-cell :title="item.status" :value="'订单价格：' +item.total+'￥'" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
       </van-tab>
+      <van-tab title="已完成">
+        <van-cell-group  v-for="item in orderWC" :key="item.index">
+          <van-cell :title="item.status" :value="'订单价格：' +item.total+'￥'" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
+      </van-tab>
+      <van-tab title="待确认">
+        <van-cell-group v-for="item in orderFW" :key="item.index">
+          <van-cell :title="item.status" :value="'订单价格：' +item.total" :label="'下单时间：'+item.orderTime"></van-cell>
+        </van-cell-group>
+      </van-tab>
+      
     </van-tabs>
   </div>
 </template>
@@ -74,26 +49,23 @@ export default({
   data(){
     return {
       active:0,
-      activeName:["1"]
+      activeName:["1"],
     }
   },
   created(){
     Toast.loading({
-      duration:1000,
+      duration:800,
       message:'加载中...'
     })
-    this.findAllOrders();
-    this.unPayOrders();
-    this.unSendOrders();
-    this.unServeOrders();
-    this.deleteOrderById();
+    this.findAllOrders(this.info.id);
 
   },
   computed:{
-    ...mapState("order",["orders","orderss","ordersss","orderssss","unSendOrder"])
+    ...mapState("order",["orders","orderFW","orderPD","orderZF","orderQD","orderWC","orderJD"]),
+    ...mapState('app',['token','info'])
   },
   methods:{
-    ...mapActions("order",["findAllOrders","unPayOrders","unSendOrders","unServeOrders","deleteOrderById"]),
+    ...mapActions("order",["findAllOrders","deleteOrderById"]),
     numAdd(total){
       total=total+1
     },
