@@ -58,8 +58,8 @@ export default {
         })
         state.orderFW=c;
     },
-    unConfirm(state,orderFW){
-      let d=orderFW.filter((item) => {
+    unConfirm(state,orderQD){
+      let d=orderQD.filter((item) => {
             return item.status ==="待确定"
         })
         state.orderQD=d;

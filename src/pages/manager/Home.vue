@@ -16,6 +16,15 @@
         ></van-grid-item>
       </van-grid>
     </van-row>
+    <van-row>
+      <van-grid :border="false" :column-num="1" v-for="item in products" :key="item.id">
+          
+        <van-grid-item :text="item.name">
+          <van-image :src="item.photo" />
+        </van-grid-item>
+      </van-grid>
+    </van-row>
+
   </div>
 </template>
 <script>
@@ -23,12 +32,16 @@ import {mapState,mapActions} from 'vuex'
 export default {
   created(){
     this.findAllCategories();
+    this.queryProduct({page:0,pageSize:4});
   },
   computed:{
-    ...mapState("category",["categories"])
+    ...mapState("category",["categories"]),
+    ...mapState("product",["products"]),
+
   },
   methods:{
     ...mapActions("category",["findAllCategories"]),
+    ...mapActions("product",["queryProduct"]),
     toCategoryList(){
       this.$router.push('./categoryList')
     }

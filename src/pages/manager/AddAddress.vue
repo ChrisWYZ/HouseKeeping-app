@@ -65,8 +65,8 @@ export default {
                 city:"",
                 area:"",
                 address:"",
-                telephone:"123",
-                // customerId:info.id
+                telephone:"",
+                // customerId:this.info.id
             },
         }
     },

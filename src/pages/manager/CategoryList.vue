@@ -9,18 +9,33 @@
                 </van-sidebar>
             <!-- 左侧导航栏 -->
         </van-col>
-        <van-col span="19">
+        <van-col span="19" class="product_item">
             <!-- 右侧内容区 -->
-            <van-card
+            <!-- <van-card
             v-for="p in products" :key="p.id"
             :price="p.price"
             :desc="p.description"  
             :title="p.name"
             :thumb="p.photo"
-            />
+            >
+            <van-stepper v-model="value" />
+            </van-card> -->
+            <van-row v-for="p in products" :key="p.id">
+                <van-col :span="4">
+                    <img v-if="p.photo" :src="p.photo" alt="">
+                    <img v-else src="src\assets\images\defaultPhoto.jpg" alt="">
+                </van-col>
+                <van-col :offset="1" :span="19">
+                    <span>名称： {{p.name}}</span>
+                    <span>价格： {{p.price}}</span>
+                    <span>描述： {{p.description}}</span>
+                    <van-stepper v-model="value" />
+                </van-col>
+            </van-row>
             <!-- 右侧内容区 -->
         </van-col>
     </van-row>
+    
     
     
     </div>
@@ -35,7 +50,8 @@ export default {
         return{
             activeKey:0,
             categoryId:0,
-            products:[]
+            products:[],
+            value:"1"
         }
     },
     created(){
@@ -64,3 +80,22 @@ export default {
     }
 }
 </script>
+
+
+<style  scoped>
+.product_item {
+  margin:auto;
+  padding:0 18px;
+  padding-top: 20px;
+  background:#F6F6F6;
+}
+.product_item span{
+    display: block;
+    font-size:10px;
+}
+.product_item img {
+  width: 100%;
+  border-radius: 3px;
+}
+
+</style>
