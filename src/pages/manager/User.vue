@@ -37,7 +37,7 @@
         <van-cell icon="location-o" title="常用地址" @click="toMyaddress" is-link />
         <van-cell icon="service-o" title="联系我们" @click="showTelephone" is-link />
         <van-cell icon="smile-o" title="帮助" @click="toHelp" is-link />
-        <van-cell  title="退出" @click="logoutHandler"  />
+        <van-cell  icon="close"  title="退出" @click="logoutHandler"  />
       </van-cell-group>
     </div>
     <!-- 联系我们的模态框  -->

@@ -75,7 +75,7 @@ export default {
             this.categoryId = id
             let response = await get("/product/findByCategoryId?id="+this.categoryId)
             this.products = response.data
-            console.log(this.products)
+            // console.log(this.products)
         }
     }
 }

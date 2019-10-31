@@ -22,13 +22,13 @@ export default {
     }
   },
   created(){
-    let token = localStorage.getItem("token");
-    if(token){
-      this.info(token)
-    } else {
-      this.$toast("请先登录")
-      this.$router.push('/login')
-    }
+    // let token = localStorage.getItem("token");
+    // if(token){
+    //   this.info(token)
+    // } else {
+    //   this.$toast("请先登录")
+    //   this.$router.push('/login')
+    // }
   },
   methods:{
     ...mapActions('app',['info']),

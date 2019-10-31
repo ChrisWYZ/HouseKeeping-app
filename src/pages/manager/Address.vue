@@ -41,7 +41,8 @@
         },
         computed:{
             ...mapState('address',['addresses']),
-            ...mapState('app',['info','token'])
+            ...mapState('app',['info','token']),
+            ...mapState('address',['addresses'])
         },
         methods:{
             ...mapActions('address',['findAddressByCustomerId']),
@@ -55,7 +56,8 @@
                 this.$router.push('./AddAddress')
             },
 
-            onEdit(item, index) {
+            onEdit(item) {
+                console.log(item.id)
                 this.$router.push('/AddAddress')
             }
         }

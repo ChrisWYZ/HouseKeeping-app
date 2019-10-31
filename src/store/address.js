@@ -17,11 +17,13 @@ export default {
     async findAddressByCustomerId(context,id){
       let response = await get('/address/findByCustomerId?id='+id)
       context.commit('refreshAddress',response.data)
-      console.log(response)
+      // console.log(response)
     },
     async saveOrUpdateAddress(context,payload){
-      let response = await post('/address/saveOrUpdate',payload)
-      context.dispatch('findAllAddresses')
+      let customerId = context.rootState.app.info.id;
+      let {province,city,area,address,telephone} = payload;
+      let response = await post('/address/saveOrUpdate',{customerId,province,city,area,address,telephone})
+      context.dispatch('findAddressByCustomerId')
       return response;
     }
 

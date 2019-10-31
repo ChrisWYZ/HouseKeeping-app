@@ -1,13 +1,8 @@
 <template>
     <div class="Addaddress">
         <van-nav-bar title="添加地址" style="border:.5px solid #ededed" left-arrow @click-left="onClickLeft"></van-nav-bar>
-        <!-- <van-address-edit
-        show-postal
-        @save="onSave"
-        ></van-address-edit> -->
-
+       
         <van-cell-group>
-            {{address}}
             <van-field
                 rows="2"
                 v-model="address.province"
@@ -48,8 +43,11 @@
                 placeholder="请输入联系电话"
                 show-word-limit
             /> 
-            <van-field :v-model="address.customerId"></van-field>
-            {{info}}
+            <van-button size="default" round style="width:100%;margin-top:2em;" type="primary" @click="saveOrderHandler(address)">保存地址</van-button>
+            <van-button size="default" round style="width:100%;margin-top:1em;" type="danger" @click="deleteOrderHandler">删除</van-button>
+
+            
+            
         </van-cell-group>
 
     </div>
@@ -66,7 +64,6 @@ export default {
                 area:"",
                 address:"",
                 telephone:"",
-                // customerId:this.info.id
             },
         }
     },
@@ -78,9 +75,21 @@ export default {
         onClickLeft(){
             this.$router.go(-1)
         },
-        onSave(){
-            console.log("保存")
+        saveOrderHandler(address){
+            // console.log(this.address)
+            this.saveOrUpdateAddress(address).then(()=>{
+                this.$notify({ type: 'success', message: '保存成功' });
+                this.$router.go(-1)
+            })
+        },
+        deleteOrderHandler(){
+
         }
     }
 }
 </script>
+
+
+<style  scoped>
+
+</style>
