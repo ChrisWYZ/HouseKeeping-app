@@ -7,6 +7,11 @@
             v-model="chosenAddressId"
             v-for="(item,index) in addresses" :key="index"
             :list="[{
+                adds:item.address,
+                province:item.province,
+                city:item.city,
+                area:item.area,
+                telephone:item.telephone,
                 id:item.id,
                 name:item.customerId,
                 tel:item.telephone,
@@ -55,10 +60,21 @@
                 // console.log('新增地址');
                 this.$router.push('./AddAddress')
             },
-
+            //修改地址
             onEdit(item) {
-                console.log(item.id)
-                this.$router.push('/AddAddress')
+                this.$toast.loading({
+                    message: '加载中...',
+                    forbidClick: true,
+                    loadingType: 'spinner',
+                    duration:400
+                    });
+                setTimeout(()=>{
+                    let data = JSON.stringify(item)
+                    this.$router.push({
+                        path:'./AddAddress',
+                        query:{data}
+                    })
+                },500)
             }
         }
     }

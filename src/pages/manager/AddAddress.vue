@@ -29,7 +29,7 @@
             />
             <van-field
                 rows="2"
-                v-model="address.address"
+                v-model="address.adds"
                 label="详细地址"
                 type="text"
                 placeholder="请输入详细地址"
@@ -47,7 +47,7 @@
             <van-button size="default" round style="width:100%;margin-top:1em;" type="danger" @click="deleteOrderHandler">删除</van-button>
 
             
-            
+            {{address}}
         </van-cell-group>
 
     </div>
@@ -59,12 +59,18 @@ export default {
     data(){
         return {
             address:{
+                id:"",
                 province:"",
                 city:"",
                 area:"",
-                address:"",
+                adds:"",
                 telephone:"",
             },
+        }
+    },
+    created(){
+        if(this.$route.query.data != undefined ){
+            this.address =JSON.parse(this.$route.query.data)
         }
     },
     computed:{
