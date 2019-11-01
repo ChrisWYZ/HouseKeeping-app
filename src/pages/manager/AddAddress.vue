@@ -77,7 +77,7 @@ export default {
         ...mapState('app',['info','token'])
     },
     methods:{
-        ...mapActions('address',['saveOrUpdateAddress']),
+        ...mapActions('address',['saveOrUpdateAddress','deleteAddress','findAddressByCustomerId']),
         onClickLeft(){
             this.$router.go(-1)
         },
@@ -85,11 +85,16 @@ export default {
             // console.log(this.address)
             this.saveOrUpdateAddress(address).then(()=>{
                 this.$notify({ type: 'success', message: '保存成功' });
+                this.findAddressByCustomerId()
                 this.$router.go(-1)
             })
         },
         deleteOrderHandler(){
-
+            this.deleteAddress(this.address.id).then(()=>{
+                this.$notify({ type: 'success', message: '删除成功' });
+                this.findAddressByCustomerId()
+                this.$router.go(-1)
+            })
         }
     }
 }

@@ -23,13 +23,11 @@ export default {
       let customerId = context.rootState.app.info.id;
       let {id,province,city,area,adds:address,telephone} = payload;
       let response = await post('/address/saveOrUpdate',{id,customerId,province,city,area,address,telephone})
-      context.dispatch('findAddressByCustomerId')
       return response;
     },
     //删除
     async deleteAddress(context,id){
       let response = await get('/address/deleteById',{id});
-      context.dispatch('findAddressByCustomerId')
       return response;
     }
   }
