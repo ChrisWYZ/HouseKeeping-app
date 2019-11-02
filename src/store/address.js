@@ -14,8 +14,9 @@ export default {
     //   let response = await get("/address/findByCustomerId?id="+id);
     //   context.commit("refreshAddress",response.data)
     // },
-    async findAddressByCustomerId(context,id){
-      let response = await get('/address/findByCustomerId?id='+id)
+    async findAddressByCustomerId(context){
+      let id = context.rootState.app.info.id
+      let response = await get('/address/findByCustomerId',{id})
       context.commit('refreshAddress',response.data)
       // console.log(response)
     },

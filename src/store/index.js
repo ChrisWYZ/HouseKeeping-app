@@ -8,6 +8,8 @@ import address from './address'
 import order from './order'
 import categoryList from './categoryList'
 import app from './app'
+import shopcar from './shopcar'
+
 
 
 export default new Vuex.Store({
@@ -17,6 +19,7 @@ export default new Vuex.Store({
     address,
     order,
     categoryList,
-    app
+    app,
+    shopcar
   }
 })

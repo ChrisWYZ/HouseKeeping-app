@@ -47,6 +47,9 @@ const routes = [
     },{
       path:"categoryList",
       component:() => import('../pages/manager/CategoryList.vue')
+    },{
+      path:"confirmOrder",
+      component:() => import('../pages/manager/ConfirmOrder.vue')
     },
       ]
   },

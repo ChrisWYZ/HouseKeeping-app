@@ -1,4 +1,4 @@
-import {get,post,post_array} from '../http/axios';
+import {get,post,post_obj_array} from '../http/axios';
 
 export default {
   namespaced:true,
@@ -78,14 +78,6 @@ export default {
     }
   },
   actions:{
-    async batchDeleteOrder(context,ids){
-      // 1. 批量删除
-      let response = await post_array("/order/batchDelete",{ids})
-      // 2. 分发
-      context.dispatch("findAllOrders");
-      // 3. 返回结果
-      return response;
-    },
     async deleteOrderById(context,id){
       let response = await get("/order/deleteById?id="+id);
       context.dispatch("findAllOrders");
@@ -105,19 +97,21 @@ export default {
 
 
     },
-    
-    
-    // payload 顾客信息
-    async saveOrUpdateOrder({commit,dispatch},payload){
-      // 1. 保存或更新
-      // console.log(payload)
-      let response = await post("/order/saveOrUpdate",payload)
-      // 2. 刷新页面
-      dispatch("findAllOrders");
-      // 3. 关闭模态框
-      commit("closeModal");
-      // 4. 提示
+    // 保存订单信息
+    async saveOrder({commit,rootState}){
+      // 1. 组合数据
+      let data = {
+        customerId:rootState.app.info.id,
+        addressId:rootState.address.addresses[0].id,
+        orderLines:Array.from(rootState.shopcar.orderLines.values())
+      }
+      // 2. 调用后台接口完成保存
+      let response = await post_obj_array('/order/save',data)
+      // 3. 清空购物车（order -> shopcar）
+      commit('shopcar/clearShopCar',null,{root:true})
+
       return response;
-    }
+    },    
+    
   }
 }
