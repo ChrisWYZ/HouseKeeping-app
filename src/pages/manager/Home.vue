@@ -8,11 +8,11 @@
       <van-grid :column-num="3">
         <!-- {{categories}} -->
         <van-grid-item
-          v-for="c in categories"
+          @click="toCategoryList(c.id,index)"
+          v-for="(c,index) in categories"
           :key="c.id"
           :icon="c.icon"
           :text="c.name"
-          @click="toCategoryList"
         ></van-grid-item>
       </van-grid>
     </van-row>
@@ -42,8 +42,8 @@ export default {
   methods:{
     ...mapActions("category",["findAllCategories"]),
     ...mapActions("product",["queryProduct"]),
-    toCategoryList(){
-      this.$router.push('./categoryList')
+    toCategoryList(id,activeKey){
+      this.$router.push({path:'./categoryList',query:{id,activeKey}})
     }
   }
 }

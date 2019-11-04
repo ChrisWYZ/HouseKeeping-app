@@ -6,7 +6,11 @@ export default {
     products:[],
   },
   getters:{
-    
+    productCustomerFilter(state){
+      return (categoryId)=>{
+        return state.products.filter(item=>item.categoryId === categoryId)
+      }
+    }
   },
   mutations:{
     refreshProducts(state,products){

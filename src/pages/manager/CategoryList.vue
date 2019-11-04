@@ -9,7 +9,7 @@
                 </van-sidebar>
             <!-- 左侧导航栏 -->
         </van-col>
-        <van-col span="19" class="product_item"  v-for="item in products" :key="item.id">
+        <van-col span="19" class="product_item"  v-for="item in productCustomerFilter(categoryId)" :key="item.id">
             <!-- 右侧内容区 -->
             <!-- <van-card
             v-for="p in products" :key="p.id"
@@ -29,14 +29,14 @@
                     <span>名称： {{item.name}}</span>
                     <span>价格： {{item.price}}</span>
                     <span>描述： {{item.description}}</span>
-                    <van-stepper v-model="item.number" min="0"/>
+                    <van-stepper v-model="item.number" :min="0" @change="numberChangeHandler(item)" />
                 </van-col>
                 
             </van-row>
             <van-submit-bar
                 :price="total*100"
                 button-text="提交订单"
-                @submit="numberChangeHandler(item)"
+                @submit="toConfirmOrderHandler()"
                 >
             </van-submit-bar>
             <!-- 右侧内容区 -->
@@ -62,15 +62,19 @@ export default {
         }
     },
     created(){
-        
+        this.queryProduct({page:0,pageSize:200});
+        this.categoryId = this.$route.query.id;
+        this.activeKey = this.$route.query.activeKey;
     },
     computed:{
         ...mapState('category',['categories']),
         ...mapGetters('shopcar',['total']),
+        ...mapGetters('product',['productCustomerFilter'])
     },
     methods:{
         ...mapActions('category',['findAllCategories']),
         ...mapMutations('shopcar',['addShopCar']),
+        ...mapActions('product',['queryProduct']),
         onClickLeft(){
             this.$router.go(-1)
         },
@@ -92,9 +96,11 @@ export default {
                 price:item.price,
                 number:item.number
             }
-            this.$router.push('./ConfirmOrder')
             console.log(orderLine);
             this.addShopCar(orderLine);
+        },
+        toConfirmOrderHandler(){
+            this.$router.push('./ConfirmOrder')
         }
     }
 }
