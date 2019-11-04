@@ -47,7 +47,6 @@
             <van-button size="default" round style="width:100%;margin-top:1em;" type="danger" @click="deleteOrderHandler">删除</van-button>
 
             
-            {{address}}
         </van-cell-group>
 
     </div>

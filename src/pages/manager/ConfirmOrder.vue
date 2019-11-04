@@ -100,7 +100,7 @@ export default {
                     type: 'success', 
                     message: response.statusText 
                 });
-                this.$router.push({path:'/order'})
+                this.$router.push({path:'./order'})
             })
         },
         onClickLeft(){

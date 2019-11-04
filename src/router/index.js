@@ -8,7 +8,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path:'/',
+    redirect:'/login'    
+  },
+  {
+    path: '/manager',
     name: 'manager',
     component: Manager,
     beforeEnter: (to, from, next) => {  //属于路由自己的拦截器
@@ -27,28 +31,28 @@ const routes = [
       }
     },
     children:[{
-      path:"home",
+      path:"/manager/home",
       component:() => import('../pages/manager/Home.vue')
     },{
-      path:"order",
+      path:"/manager/order",
       component:() => import('../pages/manager/Order.vue')
     },{
-      path:"user",
+      path:"/manager/user",
       component:() => import('../pages/manager/User.vue')
     },{
-      path:"help",
+      path:"/manager/help",
       component:() => import('../pages/manager/Help.vue')
     },{
-      path:"address",
+      path:"/manager/address",
       component:() => import('../pages/manager/Address.vue')
     },{
-      path:"addAddress",
+      path:"/manager/addAddress",
       component:() => import('../pages/manager/AddAddress.vue')
     },{
-      path:"categoryList",
+      path:"/manager/categoryList",
       component:() => import('../pages/manager/CategoryList.vue')
     },{
-      path:"confirmOrder",
+      path:"/manager/confirmOrder",
       component:() => import('../pages/manager/ConfirmOrder.vue')
     },
       ]

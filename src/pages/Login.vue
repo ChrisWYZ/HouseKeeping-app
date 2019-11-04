@@ -1,7 +1,12 @@
 <template>
   <div class="login">
-      <div class="login-content">
-        {{form}}
+    <div class="header">
+      <div class="logo">jz</div>
+      <div class="title">
+        家政服务平台-顾客端
+      </div>
+    </div>
+    <div class="login-content">
       <van-cell-group>
         <van-field v-model="form.username" placeholder="请输入用户名" required  label="用户名"/>
       </van-cell-group>
@@ -30,7 +35,7 @@ export default {
     ...mapActions('app',['login']),
     loginHandler(){
       this.login(this.form).then(() =>{
-        this.$router.push('./home')
+        this.$router.push('./manager/home')
       })
     }
   }
@@ -42,5 +47,27 @@ export default {
 }
 .login-submit {
   text-align: center;
+}
+.header {
+  height: 140px;
+  padding: 50px;
+  color: #ffffff;
+  background-color: lightblue;
+  text-align: center
+}
+.header .logo {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  border: 1px solid #efefef;
+  margin: 0 auto;
+  color:#efefef;
+  font-weight: bold;
+  margin-bottom: 1em;
+  font-size: 1.5em
+}
+.header .title {
+  font-size: 24px;
 }
 </style>
